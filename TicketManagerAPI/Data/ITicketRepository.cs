@@ -13,13 +13,12 @@ namespace TicketManagerAPI.Data
 
         Task<PageList<Ticket>> GetTickets(TicketParams ticketParams);
 
-        Task<Ticket> GetTicket();
+        Task<Ticket> GetTicket(int id);
 
         Task<bool> Save();
 
-        void Add<T>(T entity) where T : class;
+        void Create(Ticket ticket);
 
-        void Delete<T>(T entity) where T : class;
-
+        void Delete(Ticket ticket);
     }
 }

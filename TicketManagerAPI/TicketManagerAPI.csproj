@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180618074203_AddTicketEntity.cs" />
+    <Compile Remove="Migrations\20180618074203_AddTicketEntity.Designer.cs" />
+    <Compile Remove="Migrations\20180620044716_AddedTicketStatusPriorityType.cs" />
+    <Compile Remove="Migrations\20180620044716_AddedTicketStatusPriorityType.Designer.cs" />
+    <Compile Remove="Migrations\20180620045800_AddedTicketType.cs" />
+    <Compile Remove="Migrations\20180620045800_AddedTicketType.Designer.cs" />
+    <Compile Remove="Migrations\20180620051451_AddedTicketType.cs" />
+    <Compile Remove="Migrations\20180620051451_AddedTicketType.Designer.cs" />
+    <Compile Remove="Migrations\20180620053136_AddedTicketType.cs" />
+    <Compile Remove="Migrations\20180620053136_AddedTicketType.Designer.cs" />
+    <Compile Remove="Migrations\20180620054425_CreateTicketEntity.cs" />
+    <Compile Remove="Migrations\20180620054425_CreateTicketEntity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

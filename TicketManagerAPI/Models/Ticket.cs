@@ -36,6 +36,17 @@ namespace TicketManagerAPI.Models
 
         public User AssignedTo { get; set; }
 
+        public int TicketTypeId { get; set; }
+
+        public TicketType TicketType { get; set; }
+
+        public int TicketPriorityId { get; set; }
+
+        public TicketPriority TicketPriority { get; set; }
+
+        public int TicketStatusId { get; set; }
+
+        public TicketStatus TicketStatus { get; set; }
 
     }
 }

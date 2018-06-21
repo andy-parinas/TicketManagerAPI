@@ -40,6 +40,12 @@ namespace TicketManagerAPI.Migrations
                     b.Property<string>("Number")
                         .IsRequired();
 
+                    b.Property<int>("TicketPriorityId");
+
+                    b.Property<int>("TicketStatusId");
+
+                    b.Property<int>("TicketTypeId");
+
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -48,7 +54,59 @@ namespace TicketManagerAPI.Migrations
 
                     b.HasIndex("CreatedById");
 
+                    b.HasIndex("TicketPriorityId");
+
+                    b.HasIndex("TicketStatusId");
+
+                    b.HasIndex("TicketTypeId");
+
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("TicketManagerAPI.Models.TicketPriority", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("FirstResponseMinutes");
+
+                    b.Property<int>("Level");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("ResolutionHours");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketPriority");
+                });
+
+            modelBuilder.Entity("TicketManagerAPI.Models.TicketStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketStatus");
+                });
+
+            modelBuilder.Entity("TicketManagerAPI.Models.TicketType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketTypes");
                 });
 
             modelBuilder.Entity("TicketManagerAPI.Models.User", b =>
@@ -86,6 +144,21 @@ namespace TicketManagerAPI.Migrations
                     b.HasOne("TicketManagerAPI.Models.User", "CreatedBy")
                         .WithMany("CreatedTickets")
                         .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TicketManagerAPI.Models.TicketPriority", "TicketPriority")
+                        .WithMany("Tickets")
+                        .HasForeignKey("TicketPriorityId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TicketManagerAPI.Models.TicketStatus", "TicketStatus")
+                        .WithMany("Tickets")
+                        .HasForeignKey("TicketStatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TicketManagerAPI.Models.TicketType", "TicketType")
+                        .WithMany("Tickets")
+                        .HasForeignKey("TicketTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

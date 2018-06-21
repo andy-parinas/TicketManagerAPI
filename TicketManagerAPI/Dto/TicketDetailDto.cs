@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace TicketManagerAPI.Dto
 {
-    public class TicketListDto
+    public class TicketDetailDto
     {
-     
         public int Id { get; set; }
 
         public string Number { get; set; }

@@ -25,6 +25,9 @@ namespace TicketManagerAPI.Helpers
 
         public string Filter { get; set; }
 
+        public string Sort { get; set; } = "CreatedAt";
+
+        public string Direction { get; set; } = "ASC";
 
 
 

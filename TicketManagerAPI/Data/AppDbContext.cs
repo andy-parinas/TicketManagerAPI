@@ -16,6 +16,10 @@ namespace TicketManagerAPI.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketType> TicketTypes { get; set; }
+        //public DbSet<TicketStatus> TicketStatuses { get; set; }
+        //public DbSet<TicketPriority> TicketPriorities { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,6 +34,24 @@ namespace TicketManagerAPI.Data
                 .WithMany(u => u.AssignedTickets)
                 .HasForeignKey(t => t.AssignedToId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.TicketType)
+                .WithMany(y => y.Tickets)
+                .HasForeignKey(t => t.TicketTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+              .HasOne(t => t.TicketStatus)
+              .WithMany(y => y.Tickets)
+              .HasForeignKey(t => t.TicketStatusId)
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+              .HasOne(t => t.TicketPriority)
+              .WithMany(y => y.Tickets)
+              .HasForeignKey(t => t.TicketPriorityId)
+              .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

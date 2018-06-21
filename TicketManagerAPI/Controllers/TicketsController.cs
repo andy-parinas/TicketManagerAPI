@@ -36,5 +36,18 @@ namespace TicketManagerAPI.Controllers
 
             return Ok(ticketsToReturn);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTicket(int id)
+        {
+            var ticket = await _repo.GetTicket(id);
+
+            if (ticket == null)
+                return NotFound();
+
+            var ticketToReturn =  _mapper.Map<TicketDetailDto>(ticket);
+
+            return Ok(ticketToReturn);
+        }
     }
 }
