@@ -11,86 +11,15 @@ using TicketManagerAPI.Data;
 namespace TicketManagerAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180621043707_AddTicketEntityWithAttributes")]
+    partial class AddTicketEntityWithAttributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("TicketManagerAPI.Models.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address")
-                        .IsRequired();
-
-                    b.Property<int>("ClientTypeId");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Phone")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientTypeId");
-
-                    b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("TicketManagerAPI.Models.ClientType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClientTypes");
-                });
-
-            modelBuilder.Entity("TicketManagerAPI.Models.ConfigItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClientId");
-
-                    b.Property<int>("ConfigItemTypeId");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("ConfigItemTypeId");
-
-                    b.ToTable("ConfigItems");
-                });
-
-            modelBuilder.Entity("TicketManagerAPI.Models.ConfigItemType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConfigItemTypes");
-                });
 
             modelBuilder.Entity("TicketManagerAPI.Models.Ticket", b =>
                 {
@@ -98,10 +27,6 @@ namespace TicketManagerAPI.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AssignedToId");
-
-                    b.Property<int>("ClientId");
-
-                    b.Property<int>("ConfigItemId");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -118,8 +43,6 @@ namespace TicketManagerAPI.Migrations
 
                     b.Property<int>("TicketPriorityId");
 
-                    b.Property<int>("TicketQueueId");
-
                     b.Property<int>("TicketStatusId");
 
                     b.Property<int>("TicketTypeId");
@@ -130,13 +53,9 @@ namespace TicketManagerAPI.Migrations
 
                     b.HasIndex("AssignedToId");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("TicketPriorityId");
-
-                    b.HasIndex("TicketQueueId");
 
                     b.HasIndex("TicketStatusId");
 
@@ -162,21 +81,6 @@ namespace TicketManagerAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TicketPriorities");
-                });
-
-            modelBuilder.Entity("TicketManagerAPI.Models.TicketQueue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TicketQueues");
                 });
 
             modelBuilder.Entity("TicketManagerAPI.Models.TicketStatus", b =>
@@ -231,42 +135,11 @@ namespace TicketManagerAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TicketManagerAPI.Models.Client", b =>
-                {
-                    b.HasOne("TicketManagerAPI.Models.ClientType", "ClientType")
-                        .WithMany("Clients")
-                        .HasForeignKey("ClientTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TicketManagerAPI.Models.ConfigItem", b =>
-                {
-                    b.HasOne("TicketManagerAPI.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TicketManagerAPI.Models.ConfigItemType", "ConfigItemType")
-                        .WithMany("ConfigItems")
-                        .HasForeignKey("ConfigItemTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("TicketManagerAPI.Models.Ticket", b =>
                 {
                     b.HasOne("TicketManagerAPI.Models.User", "AssignedTo")
                         .WithMany("AssignedTickets")
                         .HasForeignKey("AssignedToId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TicketManagerAPI.Models.Client", "Client")
-                        .WithMany("Tickets")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TicketManagerAPI.Models.ConfigItem", "ConfigItem")
-                        .WithMany("Tickets")
-                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TicketManagerAPI.Models.User", "CreatedBy")
@@ -277,11 +150,6 @@ namespace TicketManagerAPI.Migrations
                     b.HasOne("TicketManagerAPI.Models.TicketPriority", "TicketPriority")
                         .WithMany("Tickets")
                         .HasForeignKey("TicketPriorityId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TicketManagerAPI.Models.TicketQueue", "TicketQueue")
-                        .WithMany("Tickets")
-                        .HasForeignKey("TicketQueueId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TicketManagerAPI.Models.TicketStatus", "TicketStatus")

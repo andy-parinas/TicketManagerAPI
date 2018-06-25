@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace TicketManagerAPI.Migrations
 {
-    public partial class CreateTicketEntity : Migration
+    public partial class AddTicketEntityWithAttributes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TicketPriority",
+                name: "TicketPriorities",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -22,7 +22,7 @@ namespace TicketManagerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TicketPriority", x => x.Id);
+                    table.PrimaryKey("PK_TicketPriorities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,9 +85,9 @@ namespace TicketManagerAPI.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_TicketPriority_TicketPriorityId",
+                        name: "FK_Tickets_TicketPriorities_TicketPriorityId",
                         column: x => x.TicketPriorityId,
-                        principalTable: "TicketPriority",
+                        principalTable: "TicketPriorities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -136,7 +136,7 @@ namespace TicketManagerAPI.Migrations
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "TicketPriority");
+                name: "TicketPriorities");
 
             migrationBuilder.DropTable(
                 name: "TicketStatus");

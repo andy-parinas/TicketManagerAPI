@@ -17,8 +17,14 @@ namespace TicketManagerAPI.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
-        //public DbSet<TicketStatus> TicketStatuses { get; set; }
-        //public DbSet<TicketPriority> TicketPriorities { get; set; }
+        public DbSet<TicketStatus> TicketStatus { get; set; }
+        public DbSet<TicketPriority> TicketPriorities { get; set; }
+        public DbSet<TicketQueue> TicketQueues { get; set; }
+        public DbSet<ConfigItemType> ConfigItemTypes { get; set; }
+        public DbSet<ConfigItem> ConfigItems { get; set; }
+        public DbSet<ClientType> ClientTypes { get; set; }
+        public DbSet<Client> Clients { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -52,6 +58,24 @@ namespace TicketManagerAPI.Data
               .WithMany(y => y.Tickets)
               .HasForeignKey(t => t.TicketPriorityId)
               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+             .HasOne(t => t.TicketQueue)
+             .WithMany(y => y.Tickets)
+             .HasForeignKey(t => t.TicketQueueId)
+             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+             .HasOne(t => t.ConfigItem)
+             .WithMany(y => y.Tickets)
+             .HasForeignKey(t => t.ClientId)
+             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+             .HasOne(t => t.Client)
+             .WithMany(y => y.Tickets)
+             .HasForeignKey(t => t.ClientId)
+             .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

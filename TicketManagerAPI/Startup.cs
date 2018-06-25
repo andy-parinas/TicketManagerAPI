@@ -58,6 +58,7 @@ namespace TicketManagerAPI
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
             //ADD AUTOMAPPER
             services.AddAutoMapper();

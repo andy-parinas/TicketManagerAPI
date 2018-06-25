@@ -29,5 +29,8 @@ namespace TicketManagerAPI.Dto
         public string Priority { get; set; }
 
         public string TicketType { get; set; }
+
+        public string Queue { get; set; }
+
     }
 }

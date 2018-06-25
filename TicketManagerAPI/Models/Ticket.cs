@@ -48,5 +48,18 @@ namespace TicketManagerAPI.Models
 
         public TicketStatus TicketStatus { get; set; }
 
+        public int TicketQueueId { get; set; }
+
+        public TicketQueue TicketQueue { get; set; }
+
+        public int ClientId { get; set; }
+
+        public Client Client { get; set; }
+
+        public int ConfigItemId { get; set; }
+
+        public ConfigItem ConfigItem { get; set; }
+
+
     }
 }

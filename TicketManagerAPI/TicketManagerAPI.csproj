@@ -17,6 +17,18 @@
     <Compile Remove="Migrations\20180620053136_AddedTicketType.Designer.cs" />
     <Compile Remove="Migrations\20180620054425_CreateTicketEntity.cs" />
     <Compile Remove="Migrations\20180620054425_CreateTicketEntity.Designer.cs" />
+    <Compile Remove="Migrations\20180620234849_CreateTicketEntity.cs" />
+    <Compile Remove="Migrations\20180620234849_CreateTicketEntity.Designer.cs" />
+    <Compile Remove="Migrations\20180621043354_AddTicketQueueEntity.cs" />
+    <Compile Remove="Migrations\20180621043354_AddTicketQueueEntity.Designer.cs" />
+    <Compile Remove="Migrations\20180621043626_AddTicketEntityWithAttributes.cs" />
+    <Compile Remove="Migrations\20180621043626_AddTicketEntityWithAttributes.Designer.cs" />
+    <Compile Remove="Migrations\20180621045628_TicketQueueRealtionship.cs" />
+    <Compile Remove="Migrations\20180621045628_TicketQueueRealtionship.Designer.cs" />
+    <Compile Remove="Migrations\20180622024556_AddClientConfigItem.cs" />
+    <Compile Remove="Migrations\20180622024556_AddClientConfigItem.Designer.cs" />
+    <Compile Remove="Migrations\20180622024715_AddClientConfigItem.cs" />
+    <Compile Remove="Migrations\20180622024715_AddClientConfigItem.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

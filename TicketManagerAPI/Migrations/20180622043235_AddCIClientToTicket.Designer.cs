@@ -11,9 +11,10 @@ using TicketManagerAPI.Data;
 namespace TicketManagerAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180622043235_AddCIClientToTicket")]
+    partial class AddCIClientToTicket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

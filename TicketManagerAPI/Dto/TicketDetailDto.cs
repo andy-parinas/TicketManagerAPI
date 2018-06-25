@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketManagerAPI.Models;
 
 namespace TicketManagerAPI.Dto
 {
@@ -28,5 +29,13 @@ namespace TicketManagerAPI.Dto
         public string Priority { get; set; }
 
         public string TicketType { get; set; }
+
+        public string Queue { get; set; }
+
+
+        public ClientInfoDto Client { get; set; }
+
+        public ConfigItemInfoDto ConfigItem { get; set; }
+
     }
 }

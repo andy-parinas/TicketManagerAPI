@@ -20,5 +20,15 @@ namespace TicketManagerAPI.Data
         void Create(Ticket ticket);
 
         void Delete(Ticket ticket);
+
+        Task<TicketStatus> GetTicketStatus(int id);
+
+        Task<TicketPriority> GetTicketPriority(int id);
+
+        Task<TicketType> GetTicketType(int id);
+
+        Task<TicketQueue> GetTicketQueue(int id);
+
+        
     }
 }

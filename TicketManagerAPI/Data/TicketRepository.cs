@@ -27,6 +27,9 @@ namespace TicketManagerAPI.Data
                             .Include(t => t.TicketStatus)
                             .Include(t => t.TicketPriority)
                             .Include(t => t.TicketType)
+                            .Include(t => t.TicketQueue)
+                            .Include(t => t.Client).ThenInclude(c => c.ClientType)
+                            .Include(t => t.ConfigItem).ThenInclude(c => c.ConfigItemType)
                             .FirstOrDefaultAsync(t => t.Id == id);
 
             return ticket;
@@ -125,12 +128,66 @@ namespace TicketManagerAPI.Data
 
         public void Create(Ticket ticket)
         {
+            var prefix = "";
+
+            switch (ticket.TicketType.Name)
+            {
+                case "Incident":
+                    prefix = "INC";
+                    break;
+                case "Service Request":
+                    prefix = "SR";
+                    break;
+                case "Change":
+                    prefix = "CR";
+                    break;
+                case "Problem":
+                    prefix = "PRO";
+                    break;
+                default:
+                    prefix = "CR";
+                    break;
+            }
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+            var ticketNumber = $"{prefix}-{unixTimestamp}";
+
+            ticket.Number = ticketNumber;
+
             _context.Add(ticket);
         }
 
         public void Delete(Ticket ticket)
         {
             _context.Remove(ticket);
+        }
+
+        public async Task<TicketStatus> GetTicketStatus(int id)
+        {
+            var status = await _context.TicketStatus.FirstOrDefaultAsync(s => s.Id == id);
+
+            return status;
+        }
+
+        public async Task<TicketPriority> GetTicketPriority(int id)
+        {
+            var priority = await _context.TicketPriorities.FirstOrDefaultAsync(p => p.Id == id);
+
+            return priority;
+        }
+
+        public async Task<TicketType> GetTicketType(int id)
+        {
+            var type = await _context.TicketTypes.FirstOrDefaultAsync(t => t.Id == id);
+
+            return type;
+        }
+
+        public async Task<TicketQueue> GetTicketQueue(int id)
+        {
+            var queue = await _context.TicketQueues.FirstOrDefaultAsync(q => q.Id == id);
+
+            return queue;
         }
     }
 }
