@@ -24,7 +24,7 @@ namespace TicketManagerAPI.Data
             return client;
         }
 
-        public async Task<ConfigItem> GetConfigItem(int clientId, int configItemId)
+        public async Task<ConfigItem> GetConfigItem( int configItemId)
         {
             ConfigItem configItem = await _context.ConfigItems.FirstOrDefaultAsync(c => c.Id == configItemId);
 

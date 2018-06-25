@@ -43,6 +43,7 @@ namespace TicketManagerAPI.Data
                             .Include(t => t.TicketPriority)
                             .Include(t => t.TicketStatus)
                             .Include(t => t.TicketType)
+                            .Include(t => t.TicketQueue)
                             .AsQueryable();
 
             if (ticketParams.AssignedTo > 0)

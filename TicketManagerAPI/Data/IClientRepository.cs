@@ -11,7 +11,7 @@ namespace TicketManagerAPI.Data
 
         Task<Client> GetClient(int id);
 
-        Task<ConfigItem> GetConfigItem(int clientId, int configItemId);
+        Task<ConfigItem> GetConfigItem( int configItemId);
 
 
 

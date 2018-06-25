@@ -55,6 +55,7 @@ namespace TicketManagerAPI.Controllers
             return Ok(ticketToReturn);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateTicket([FromBody] TicketCreateDto ticketCreate)
         {
 
@@ -73,7 +74,7 @@ namespace TicketManagerAPI.Controllers
             if (client == null)
                 ModelState.AddModelError("Client", "Client does not exist");
 
-            ConfigItem item = await _clientRepo.GetConfigItem(ticketCreate.ClientId, ticketCreate.ConfigItemId);
+            ConfigItem item = await _clientRepo.GetConfigItem(ticketCreate.ConfigItemId);
 
             if (item == null)
                 ModelState.AddModelError("Config Item", "Configuration Item does not exist");
@@ -134,6 +135,132 @@ namespace TicketManagerAPI.Controllers
             return BadRequest();
 
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTicket(int id, [FromBody] TicketUpdateDto ticketUpdate)
+        {
+
+            Ticket ticket = await _repo.GetTicket(id);
+
+            if (ticket == null)
+                return NotFound();
+
+            if (!string.IsNullOrEmpty(ticketUpdate.Description) || !string.IsNullOrWhiteSpace(ticketUpdate.Description))
+            {
+                ticket.Description = ticketUpdate.Description;
+            }
+
+            if (!string.IsNullOrEmpty(ticketUpdate.Details) || !string.IsNullOrWhiteSpace(ticketUpdate.Details))
+            {
+                ticket.Details = ticketUpdate.Details;
+            }
+
+            if(ticketUpdate.AssignedToId > 0)
+            {
+                User user = await _userRepo.GetUser(ticketUpdate.AssignedToId);
+
+                if (user == null)
+                    return BadRequest(new { error = "User not found" });
+
+                ticket.AssignedTo = user;
+            }
+
+            if (ticketUpdate.TicketStatusId > 0)
+            {
+                TicketStatus status = await _repo.GetTicketStatus(ticketUpdate.TicketStatusId);
+
+                if (status == null)
+                    return BadRequest(new { error = "status not found" });
+
+                ticket.TicketStatus = status;
+            }
+
+
+            if (ticketUpdate.TicketPriorityId > 0)
+            {
+                TicketPriority priority = await _repo.GetTicketPriority(ticketUpdate.TicketPriorityId);
+
+                if (priority == null)
+                    return BadRequest(new { error = "priority not found" });
+
+                ticket.TicketPriority = priority;
+            }
+
+            if (ticketUpdate.TicketTypeId > 0)
+            {
+                TicketType type = await _repo.GetTicketType(ticketUpdate.TicketTypeId);
+
+                if (type == null)
+                    return BadRequest(new { error = "Ticket Type not found" });
+
+                ticket.TicketType = type;
+            }
+
+            if (ticketUpdate.TicketQueueId > 0)
+            {
+                TicketQueue queue = await _repo.GetTicketQueue(ticketUpdate.TicketQueueId);
+
+                if (queue == null)
+                    return BadRequest(new { error = "Ticket Queue not found" });
+
+                ticket.TicketQueue = queue;
+            }
+
+            if (ticketUpdate.ClientId > 0)
+            {
+                Client client = await _clientRepo.GetClient(ticketUpdate.ClientId);
+
+                if (client == null)
+                    return BadRequest(new { error = "Ticket Client not found" });
+
+                ticket.Client = client;
+            }
+
+            if (ticketUpdate.ConfigItemId > 0)
+            {
+                ConfigItem item = await _clientRepo.GetConfigItem(ticketUpdate.ConfigItemId);
+
+                if (item == null)
+                    return BadRequest(new { error = "Ticket Config Item not found" });
+
+                ticket.ConfigItem = item;
+            }
+
+
+            ticket.UpdatedAt = DateTime.Now;
+
+            if (await _repo.Save())
+            {
+                var ticketToReturn = _mapper.Map<TicketDetailDto>(ticket);
+
+                return Ok(ticketToReturn);
+            }
+
+
+            return BadRequest(new {error = "Ticket cannot be saved" });
+
+
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTicket(int id)
+        {
+            Ticket ticket = await _repo.GetTicket(id);
+
+            if (ticket == null)
+                return NotFound();
+
+            _repo.Delete(ticket);
+
+            if (await _repo.Save())
+                return Ok();
+
+
+            return BadRequest(new { error = "Error Deleting Ticket" });
+
+        }
+
 
     }
 }
