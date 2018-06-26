@@ -13,7 +13,7 @@ namespace TicketManagerAPI.Data
 
         Task<ConfigItem> GetConfigItem( int configItemId);
 
-
+        Task<ICollection<Client>> GetClients();
 
     }
 }

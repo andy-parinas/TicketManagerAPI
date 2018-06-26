@@ -23,12 +23,19 @@ namespace TicketManagerAPI.Data
 
         Task<TicketStatus> GetTicketStatus(int id);
 
+        Task<ICollection<TicketStatus>> GetTicketStatuses();
+
         Task<TicketPriority> GetTicketPriority(int id);
+
+        Task<ICollection<TicketPriority>> GetTicketPriorities();
 
         Task<TicketType> GetTicketType(int id);
 
+        Task<ICollection<TicketType>> GetTicketTypes();
+
         Task<TicketQueue> GetTicketQueue(int id);
 
+        Task<ICollection<TicketQueue>> GetTicketQueues();
         
     }
 }

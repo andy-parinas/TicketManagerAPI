@@ -190,5 +190,33 @@ namespace TicketManagerAPI.Data
 
             return queue;
         }
+
+        public async Task<ICollection<TicketStatus>> GetTicketStatuses()
+        {
+            var statuses = await _context.TicketStatus.ToListAsync();
+
+            return statuses;
+        }
+
+        public async Task<ICollection<TicketPriority>> GetTicketPriorities()
+        {
+            var priorities = await _context.TicketPriorities.ToListAsync();
+
+            return priorities;
+        }
+
+        public async Task<ICollection<TicketType>> GetTicketTypes()
+        {
+            var types = await _context.TicketTypes.ToListAsync();
+
+            return types;
+        }
+
+        public async Task<ICollection<TicketQueue>> GetTicketQueues()
+        {
+            var queues = await _context.TicketQueues.ToListAsync();
+
+            return queues;
+        }
     }
 }

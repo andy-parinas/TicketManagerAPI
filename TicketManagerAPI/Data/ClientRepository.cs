@@ -24,6 +24,13 @@ namespace TicketManagerAPI.Data
             return client;
         }
 
+        public async Task<ICollection<Client>> GetClients()
+        {
+            var clients = await _context.Clients.ToListAsync();
+
+            return clients;
+        }
+
         public async Task<ConfigItem> GetConfigItem( int configItemId)
         {
             ConfigItem configItem = await _context.ConfigItems.FirstOrDefaultAsync(c => c.Id == configItemId);

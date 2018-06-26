@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketManagerAPI.Data;
@@ -12,6 +14,7 @@ using TicketManagerAPI.Models;
 
 namespace TicketManagerAPI.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Tickets")]
     public class TicketsController : Controller
@@ -58,8 +61,9 @@ namespace TicketManagerAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTicket([FromBody] TicketCreateDto ticketCreate)
         {
+            var createdById = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            User createdBy =  await _userRepo.GetUser(ticketCreate.CreatedById);
+            User createdBy =  await _userRepo.GetUser(createdById);
 
             if (createdBy == null)
                 ModelState.AddModelError("CreatedBy", "User does not exist");
@@ -261,6 +265,28 @@ namespace TicketManagerAPI.Controllers
 
         }
 
+
+        [HttpGet("properties")]
+        public async Task<IActionResult> GetTicketProperties()
+        {
+            var statuses = await _repo.GetTicketStatuses();
+            var types = await _repo.GetTicketTypes();
+            var priorities = await _repo.GetTicketPriorities();
+            var queues = await _repo.GetTicketQueues();
+            //var clients = await _clientRepo.GetClients();
+
+            var properties = new
+            {
+                statuses = statuses,
+                types = types,
+                priorities = priorities,
+                queues = queues
+            };
+
+            return Ok(properties);
+
+
+        }
 
     }
 }
