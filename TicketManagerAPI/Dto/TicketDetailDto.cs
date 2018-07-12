@@ -22,16 +22,21 @@ namespace TicketManagerAPI.Dto
 
         public UserInfoDto CreatedBy { get; set; }
 
+        public int AssignedToId { get; set; }
+
         public UserInfoDto AssignedTo { get; set; }
 
+        public int TicketStatusId { get; set; }
+
         public string Status { get; set; }
+
+        public int TicketPriorityId { get; set; }
 
         public string Priority { get; set; }
 
         public string TicketType { get; set; }
 
         public string Queue { get; set; }
-
 
         public ClientInfoDto Client { get; set; }
 

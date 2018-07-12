@@ -12,7 +12,7 @@ namespace TicketManagerAPI.Data
 
         Task<User> GetUser(int id);
 
-        Task<PageList<User>> GetUsers(UserParams userParams);
+        Task<ICollection<User>> GetUsers();
 
         Task<bool> Save();
     }

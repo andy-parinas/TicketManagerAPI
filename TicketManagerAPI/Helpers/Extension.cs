@@ -21,5 +21,13 @@ namespace TicketManagerAPI.Helpers
             response.Headers.Add("Pagination", JsonConvert.SerializeObject(paginationHeader,camelCaseFormatter));
             response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
+
+
+        public static string ToShortDateTime(this DateTime theDateTime)
+        {
+            var shortDateTime = $"{theDateTime.ToShortDateString()} {theDateTime.ToShortTimeString()}";
+
+            return shortDateTime;
+        }
     }
 }

@@ -60,6 +60,8 @@ namespace TicketManagerAPI.Models
 
         public ConfigItem ConfigItem { get; set; }
 
+        public ICollection<Journal> Journals { get; set; }
+
 
     }
 }

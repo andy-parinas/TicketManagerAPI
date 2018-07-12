@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketManagerAPI.Data;
@@ -36,6 +37,22 @@ namespace TicketManagerAPI.Controllers
 
             return Ok(userToReturn);
 
+
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+
+            var users = await _repo.GetUsers();
+
+            var usersToReturn = _mapper.Map<ICollection<UserListDto>>(users);
+
+
+            return Ok(usersToReturn);
+
+                
 
         }
     }

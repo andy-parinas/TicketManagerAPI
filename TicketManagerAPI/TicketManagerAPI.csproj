@@ -29,6 +29,10 @@
     <Compile Remove="Migrations\20180622024556_AddClientConfigItem.Designer.cs" />
     <Compile Remove="Migrations\20180622024715_AddClientConfigItem.cs" />
     <Compile Remove="Migrations\20180622024715_AddClientConfigItem.Designer.cs" />
+    <Compile Remove="Migrations\20180627065627_AddJournalModel.cs" />
+    <Compile Remove="Migrations\20180627065627_AddJournalModel.Designer.cs" />
+    <Compile Remove="Migrations\20180627070223_AddJournalModel.cs" />
+    <Compile Remove="Migrations\20180627070223_AddJournalModel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,6 +13,8 @@ namespace TicketManagerAPI.Data
 
         Task<PageList<Ticket>> GetTickets(TicketParams ticketParams);
 
+        Task<int> GetTicketCount(TicketParams ticketParams);
+
         Task<Ticket> GetTicket(int id);
 
         Task<bool> Save();
@@ -36,6 +38,14 @@ namespace TicketManagerAPI.Data
         Task<TicketQueue> GetTicketQueue(int id);
 
         Task<ICollection<TicketQueue>> GetTicketQueues();
+
+        Task<ICollection<Journal>> GetJournals(int ticketId);
+
+        Task<Journal> GetJournal(int id);
+
+        void AddJournal(Journal journal);
+
+        void RemoveJournal(Journal journal);
         
     }
 }

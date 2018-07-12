@@ -16,7 +16,9 @@ namespace TicketManagerAPI.Dto
 
         public string Details { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        //public DateTime CreatedAt { get; set; }
+
+        public string CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
 
@@ -31,6 +33,9 @@ namespace TicketManagerAPI.Dto
         public string TicketType { get; set; }
 
         public string Queue { get; set; }
+
+        public string ClientName { get; set; }
+
 
     }
 }

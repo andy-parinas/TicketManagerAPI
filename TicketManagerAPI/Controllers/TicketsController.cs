@@ -53,7 +53,7 @@ namespace TicketManagerAPI.Controllers
             if (ticket == null)
                 return NotFound();
 
-            var ticketToReturn =  _mapper.Map<TicketDetailDto>(ticket);
+            var ticketToReturn = _mapper.Map<TicketDetailDto>(ticket);
 
             return Ok(ticketToReturn);
         }
@@ -63,7 +63,7 @@ namespace TicketManagerAPI.Controllers
         {
             var createdById = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            User createdBy =  await _userRepo.GetUser(createdById);
+            User createdBy = await _userRepo.GetUser(createdById);
 
             if (createdBy == null)
                 ModelState.AddModelError("CreatedBy", "User does not exist");
@@ -133,7 +133,7 @@ namespace TicketManagerAPI.Controllers
             {
                 var ticketToReturn = _mapper.Map<TicketDetailDto>(newTicket);
 
-                return CreatedAtRoute("GetTicket", new {controller="Tickets", id=newTicket.Id }, ticketToReturn);
+                return CreatedAtRoute("GetTicket", new { controller = "Tickets", id = newTicket.Id }, ticketToReturn);
             }
 
             return BadRequest();
@@ -159,7 +159,7 @@ namespace TicketManagerAPI.Controllers
                 ticket.Details = ticketUpdate.Details;
             }
 
-            if(ticketUpdate.AssignedToId > 0)
+            if (ticketUpdate.AssignedToId > 0)
             {
                 User user = await _userRepo.GetUser(ticketUpdate.AssignedToId);
 
@@ -241,7 +241,7 @@ namespace TicketManagerAPI.Controllers
             }
 
 
-            return BadRequest(new {error = "Ticket cannot be saved" });
+            return BadRequest(new { error = "Ticket cannot be saved" });
 
 
         }
@@ -288,5 +288,86 @@ namespace TicketManagerAPI.Controllers
 
         }
 
+
+        [HttpGet("{ticketId}/journals")]
+        public async Task<IActionResult> GetJournals(int ticketId)
+        {
+            var journals = await _repo.GetJournals(ticketId);
+
+            var journalsToReturn = _mapper.Map<ICollection<JournalListDto>>(journals);
+
+            return Ok(journalsToReturn);
+        }
+
+
+        [HttpGet("{ticketId}/journals/{id}", Name ="GetJournal")]
+        public async Task<IActionResult> GetJournal(int ticketId, int id)
+        {
+
+            var journal = await _repo.GetJournal(id);
+
+            if (journal == null)
+                return NotFound();
+
+
+            var journalToReturn = _mapper.Map<JournalDetailDto>(journal);
+
+            return Ok(journalToReturn);
+            
+
+        }
+
+        [HttpPost("{ticketId}/journals")]
+        public async Task<IActionResult> CreateJournal(int ticketId, [FromBody] JournalCreateDto journalCreate)
+        {
+
+            Ticket ticket = await _repo.GetTicket(ticketId);
+
+            if (ticket == null)
+                return BadRequest(new { error = "Ticket not Found" });
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var createdAt = DateTime.Now;
+
+            var createdById = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            User createdBy = await _userRepo.GetUser(createdById);
+
+            var journal = new Journal
+            {
+                Entry = journalCreate.Entry,
+                Ticket = ticket,
+                CreatedBy = createdBy,
+                CreatedAt = createdAt
+            };
+
+            _repo.AddJournal(journal);
+
+            if (await _repo.Save())
+            {
+                var journalToReturn = _mapper.Map<JournalDetailDto>(journal);
+
+                return CreatedAtRoute("GetJournal", new { controller = "Tickets", ticketId=ticket.Id, id = journal.Id }, journalToReturn);
+            }
+
+
+            return BadRequest(new { error = "Error Creating Journal" });
+
+
+        }
+
+
+        [HttpGet("counts")]
+        public async Task<IActionResult> TicketCount([FromQuery] TicketParams ticketParams)
+        {
+
+            var count = await _repo.GetTicketCount(ticketParams);
+
+            return Ok(count);
+            
+
+        }
     }
 }

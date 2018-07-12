@@ -44,6 +44,7 @@ namespace TicketManagerAPI.Data
                             .Include(t => t.TicketStatus)
                             .Include(t => t.TicketType)
                             .Include(t => t.TicketQueue)
+                            .Include(t => t.Client)
                             .AsQueryable();
 
             if (ticketParams.AssignedTo > 0)
@@ -55,6 +56,44 @@ namespace TicketManagerAPI.Data
             if (!string.IsNullOrEmpty(ticketParams.Filter))
                 tickets = tickets.Where(t => t.Description.Contains(ticketParams.Filter) || t.Details.Contains(ticketParams.Filter));
 
+            if (ticketParams.TicketPriorityId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketPriorityId == ticketParams.TicketPriorityId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketPriority))
+            {
+                tickets = tickets.Where(t => t.TicketPriority.Name == ticketParams.TicketPriority);
+            }
+
+
+            if (ticketParams.TicketStatusId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketStatusId == ticketParams.TicketStatusId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketStatus))
+            {
+                tickets = tickets.Where(t => t.TicketStatus.Name == ticketParams.TicketStatus);
+            }
+
+
+            if (ticketParams.TicketTypeId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketTypeId == ticketParams.TicketTypeId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketType))
+            {
+                tickets = tickets.Where(t => t.TicketType.Name == ticketParams.TicketType);
+            }
+
+
+            if (ticketParams.TicketQueueId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketQueueId == ticketParams.TicketQueueId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketQueue))
+            {
+                tickets = tickets.Where(t => t.TicketQueue.Name == ticketParams.TicketQueue);
+            }
 
             tickets = Sort(tickets, ticketParams.Sort, ticketParams.Direction);
 
@@ -217,6 +256,98 @@ namespace TicketManagerAPI.Data
             var queues = await _context.TicketQueues.ToListAsync();
 
             return queues;
+        }
+
+        public async Task<ICollection<Journal>> GetJournals(int ticketId)
+        {
+            var journals = await _context.Journals
+                                    .Where(j => j.TicketId == ticketId)
+                                    .Include(j => j.CreatedBy)
+                                    .OrderByDescending(j => j.CreatedAt)
+                                    .ToListAsync();
+
+            return journals;
+        }
+
+        public async Task<Journal> GetJournal(int id)
+        {
+            Journal journal = await _context.Journals.FirstOrDefaultAsync(j => j.Id == id);
+
+            return journal;
+        }
+
+        public void AddJournal(Journal journal)
+        {
+            _context.Add(journal);
+        }
+
+        public void RemoveJournal(Journal journal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> GetTicketCount(TicketParams ticketParams)
+        {
+            var tickets = _context.Tickets
+                            .Include(t => t.CreatedBy)
+                            .Include(t => t.AssignedTo)
+                            .Include(t => t.TicketPriority)
+                            .Include(t => t.TicketStatus)
+                            .Include(t => t.TicketType)
+                            .Include(t => t.TicketQueue)
+                            .Include(t => t.Client)
+                            .AsQueryable();
+
+            if (ticketParams.AssignedTo > 0)
+                tickets = tickets.Where(t => t.AssignedToId == ticketParams.AssignedTo);
+
+            if (ticketParams.CreatedBy > 0)
+                tickets = tickets.Where(t => t.CreatedById == ticketParams.CreatedBy);
+
+            if (ticketParams.TicketPriorityId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketPriorityId == ticketParams.TicketPriorityId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketPriority))
+            {
+                tickets = tickets.Where(t => t.TicketPriority.Name == ticketParams.TicketPriority);
+            }
+                               
+
+            if (ticketParams.TicketStatusId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketStatusId == ticketParams.TicketStatusId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketStatus))
+            {
+                tickets = tickets.Where(t => t.TicketStatus.Name == ticketParams.TicketStatus);
+            }
+                
+
+            if (ticketParams.TicketTypeId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketTypeId == ticketParams.TicketTypeId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketType))
+            {
+                tickets = tickets.Where(t => t.TicketType.Name == ticketParams.TicketType);
+            }
+                
+
+            if (ticketParams.TicketQueueId > 0)
+            {
+                tickets = tickets.Where(t => t.TicketQueueId == ticketParams.TicketQueueId);
+            }
+            else if (!string.IsNullOrEmpty(ticketParams.TicketQueue))
+            {
+                tickets = tickets.Where(t => t.TicketQueue.Name == ticketParams.TicketQueue);
+            }
+                
+
+            var count = await tickets.CountAsync();
+
+            return count;
+
         }
     }
 }

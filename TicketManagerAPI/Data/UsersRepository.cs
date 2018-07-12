@@ -26,9 +26,11 @@ namespace TicketManagerAPI.Data
             return user;
         }
 
-        public Task<PageList<User>> GetUsers(UserParams userParams)
+        public async Task<ICollection<User>> GetUsers()
         {
-            throw new NotImplementedException();
+            ICollection<User> users = await _context.Users.ToListAsync();
+
+            return users;
         }
 
         public Task<bool> Save()

@@ -31,5 +31,12 @@ namespace TicketManagerAPI.Models
 
         public ICollection<Ticket> AssignedTickets { get; set; }
 
+        public ICollection<Journal> Journals { get; set; }
+
+        public string GetFullName()
+        {
+            return $"{this.FirstName} {this.LastName}";
+        }
+
     }
 }

@@ -29,7 +29,20 @@ namespace TicketManagerAPI.Helpers
 
         public string Direction { get; set; } = "ASC";
 
+        public int TicketTypeId { get; set; } = 0;
 
+        public string TicketType { get; set; }
 
+        public int TicketPriorityId { get; set; } = 0;
+
+        public string TicketPriority { get; set; }
+
+        public int TicketQueueId { get; set; } = 0;
+
+        public string TicketQueue { get; set; }
+
+        public int TicketStatusId { get; set; } = 0;
+
+        public string TicketStatus { get; set; }
     }
 }

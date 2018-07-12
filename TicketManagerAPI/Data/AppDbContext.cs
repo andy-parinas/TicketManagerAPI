@@ -24,58 +24,71 @@ namespace TicketManagerAPI.Data
         public DbSet<ConfigItem> ConfigItems { get; set; }
         public DbSet<ClientType> ClientTypes { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Journal> Journals { get; set; }
 
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Ticket>()
-                .HasOne(t => t.CreatedBy)
-                .WithMany(u => u.CreatedTickets)
-                .HasForeignKey(t => t.CreatedById)
+                   .HasOne(t => t.CreatedBy)
+                   .WithMany(u => u.CreatedTickets)
+                   .HasForeignKey(t => t.CreatedById)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                   .HasOne(t => t.AssignedTo)
+                   .WithMany(u => u.AssignedTickets)
+                   .HasForeignKey(t => t.AssignedToId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                  .HasOne(t => t.TicketType)
+                  .WithMany(y => y.Tickets)
+                  .HasForeignKey(t => t.TicketTypeId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                  .HasOne(t => t.TicketStatus)
+                  .WithMany(y => y.Tickets)
+                  .HasForeignKey(t => t.TicketStatusId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                  .HasOne(t => t.TicketPriority)
+                  .WithMany(y => y.Tickets)
+                  .HasForeignKey(t => t.TicketPriorityId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                 .HasOne(t => t.TicketQueue)
+                 .WithMany(y => y.Tickets)
+                 .HasForeignKey(t => t.TicketQueueId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                 .HasOne(t => t.ConfigItem)
+                 .WithMany(y => y.Tickets)
+                 .HasForeignKey(t => t.ClientId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                 .HasOne(t => t.Client)
+                 .WithMany(y => y.Tickets)
+                 .HasForeignKey(t => t.ClientId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Journal>()
+                .HasOne(j => j.Ticket)
+                .WithMany(t => t.Journals)
+                .HasForeignKey(j => j.TicketId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Journal>()
+                .HasOne(j => j.CreatedBy)
+                .WithMany(u => u.Journals)
+                .HasForeignKey(j => j.CreatedById)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-                .HasOne(t => t.AssignedTo)
-                .WithMany(u => u.AssignedTickets)
-                .HasForeignKey(t => t.AssignedToId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-                .HasOne(t => t.TicketType)
-                .WithMany(y => y.Tickets)
-                .HasForeignKey(t => t.TicketTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-              .HasOne(t => t.TicketStatus)
-              .WithMany(y => y.Tickets)
-              .HasForeignKey(t => t.TicketStatusId)
-              .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-              .HasOne(t => t.TicketPriority)
-              .WithMany(y => y.Tickets)
-              .HasForeignKey(t => t.TicketPriorityId)
-              .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-             .HasOne(t => t.TicketQueue)
-             .WithMany(y => y.Tickets)
-             .HasForeignKey(t => t.TicketQueueId)
-             .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-             .HasOne(t => t.ConfigItem)
-             .WithMany(y => y.Tickets)
-             .HasForeignKey(t => t.ClientId)
-             .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Ticket>()
-             .HasOne(t => t.Client)
-             .WithMany(y => y.Tickets)
-             .HasForeignKey(t => t.ClientId)
-             .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

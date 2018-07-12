@@ -80,7 +80,17 @@ namespace TicketManagerAPI.Controllers
             var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return Ok(tokenString);
+            var authUser = new
+            {
+                id = user.Id,
+                name = user.FirstName
+            };
+
+            return Ok(new
+            {
+                user = authUser,
+                token = tokenString
+            });
 
         }
     }
