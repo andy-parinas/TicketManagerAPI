@@ -11,11 +11,15 @@ namespace TicketManagerAPI.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+        }
+
+        public AppDbContext()
+        {
 
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
+        public virtual DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
         public DbSet<TicketPriority> TicketPriorities { get; set; }

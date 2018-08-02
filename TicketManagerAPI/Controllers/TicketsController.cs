@@ -40,9 +40,10 @@ namespace TicketManagerAPI.Controllers
 
             var ticketsToReturn = _mapper.Map<IEnumerable<TicketListDto>>(tickets);
 
-            Response.AddPagination(tickets.CurrentPage, tickets.PageSize, tickets.TotalCount, tickets.TotalPages);
+            //Response.AddPagination(tickets.CurrentPage, tickets.PageSize, tickets.TotalCount, tickets.TotalPages);
 
             return Ok(ticketsToReturn);
+            //return Ok(tickets);
         }
 
         [HttpGet("{id}", Name = "GetTicket")]
